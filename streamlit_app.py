@@ -5,15 +5,21 @@ import pickle
 
 # Configuração da página
 st.set_page_config(
-    page_title="Predição de Churn",
+    page_title="Predição de Cancelamento",
     page_icon="📊",
     layout="centered"
 )
 
 # Título e Descrição
-st.title("📊 Predição de Churn de Clientes")
+st.title("📊 Predição de Cancelamento de Clientes")
 st.write("""
 Esta aplicação utiliza um modelo de **Regressão Logística** para prever a probabilidade de cancelamento (Churn) de um cliente com base em seu comportamento de uso.
+""")
+
+st.markdown("---")
+
+st.write("""
+A precisão deste modelo é probabilística e pode expressar falsos posivitos ou falsos negativos. Os dados exibidos devem ser tratados apenas como um indicativo.
 """)
 
 st.markdown("---")
@@ -39,17 +45,17 @@ with st.form("form_predicao"):
     
     with col1:
         total_day_minutes = st.number_input(
-            "Total de Minutos Diurnos (Total day minutes)",
+            "Total de Minutos Diurnos",
             min_value=0.0,
             max_value=1000.0,
             value=180.0,
             step=1.0,
-            help="Total de minutos consumidos durante o período diurno."
+            help="Total de minutos de atendimento consumidos durante o período diurno."
         )
         
     with col2:
         customer_service_calls = st.number_input(
-            "Chamadas ao Suporte (Customer service calls)",
+            "Chamadas ao Suporte",
             min_value=0,
             max_value=20,
             value=1,
@@ -86,10 +92,10 @@ if btn_submeter:
         st.metric(label="Chance de Permanência", value=f"{prob_permanencia:.1f}%")
 
     with col_res2:
-        st.metric(label="Chance de Cancelamento (Churn)", value=f"{prob_churn:.1f}%")
+        st.metric(label="Chance de Cancelamento", value=f"{prob_churn:.1f}%")
 
     # Exibição do diagnóstico visual
     if predicao == 1:
-        st.error(f"⚠️ **Alto Risco de Churn!** O cliente possui **{prob_churn:.2f}%** de chance de cancelar os serviços.")
+        st.error(f"⚠️ **Alto Risco de Cancelamento!** O cliente possui **{prob_churn:.2f}%** de chance de cancelar os serviços.")
     else:
-        st.success(f"✅ **Baixo Risco de Churn.** O cliente possui apenas **{prob_churn:.2f}%** de chance de cancelar os serviços.")
+        st.success(f"✅ **Baixo Risco de Cancelamento.** O cliente possui apenas **{prob_churn:.2f}%** de chance de cancelar os serviços.")
